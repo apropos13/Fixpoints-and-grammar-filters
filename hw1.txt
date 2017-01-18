@@ -1,0 +1,94 @@
+This was the first time that I used functional programming so at first it was 
+difficult until I got fully used to it. Here is how I implemented my functions: 
+
+In the subset function I used two of the functions of the List module and more
+ precisely the for_all and mem function. The for_all function checks to see if
+ all elements satisfy the ( fun n -> List.mem n b ) which in turn returns true 
+if and only if n (takes all the values of the elements of a) is equal to an 
+element in b. In short, the combination of these two functions checks
+ whether and element of a exists in the set b.
+
+In the equal sets function I faced some difficulty as well.
+ My first attempt was the following: 
+
+let equal_sets a b =
+    if a.length > b.length then List.for_all ( fun n -> List.mem n a) b 
+    else List.for_all ( fun n -> List.mem n b) a;;
+
+ Then I noticed that the premises inside the if statement 
+were exactly the definition of a subset. Hence if we two sets are equal it 
+has to be that one is the subset of the other. Therefore I used the subset 
+function to write the equal_sets function. 
+
+Set union was a function that I managed to do relatively easy: 
+I wrote a function “compare x y” that compares two elements and reports if
+ they are equal and then used a function in the list module called “merge”.
+
+Set_intersection was the first recursive function 
+and I followed a simple algorithm: 
+	Divide the first list into a head and a tail 
+	Look if the header exists in b ,if yes then add it to intersection 
+	else proceed to the next element
+
+Finally, set_diff was a function very similar to set _intersection and I 
+accomplished to do it by simply reversing 
+some commands from the set_intersection function.
+
+FILTER BLIND ALLEYS
+
+For this part I followed the this algorithm: 
+
+ Step 1: Define lists a and b such that list a contains all the grammar rules
+       and b is initially empty. 
+Step 2: Pass through all the grammar rules and add the rules to b for which
+     	 you can find their rhs to be consisting only from terminal symbols.
+Step 3: Pass through the rules again and add to b all the rules belonging 
+to a such that the rhs of the rule exists as the lhs of the rule in b.
+Step 4: If you added at least one element at Step 3, 
+     	do Step 3 again else return b.
+Step 5: List b contains no blind alley rules
+
+In order to carry out this algorithm I used many helper functions: 
+
+Decides if a symbol is terminal or non terminal
+	•	let t_or_nt s 
+
+Decides if a list is exclusively made out of terminal symbols
+	•	let is_terminal_list li =
+  
+ Determines if a rule has only terminal symbols
+	•	let  is_terminal_rule 
+
+In a list of rules, find those consisting of terminal 
+strings and add them to them to list b 
+ First did the mistake to have hd::b; add_rules tl b 
+	•	let rec add_rules rules b
+
+Takes the first elements of the list of unions and 
+returns another list with just these elements
+	•	let rec take_first li_of_uni newlist
+
+Extracts the symbol N (and discards T symbols) from the list
+ i.e. [N Expr; N Lvalue; T "j"] gives [Expr; Lvalue] 
+	•	let rec take_second li newlist
+
+Adds the rhs of a to b iff the rhs of a exists in the lhs of b. 
+For each element of r check if it belongs already in b, 
+then add the left side l to b.
+ This function assumes add_rule has already been called on b
+	•	let rec old_to_new a b
+
+
+Need to check if old_to_new added a new rule to b , 
+if that is the case run the old_to_new again. 
+	•	let rec filter g b
+
+Calls add rules before calling filter
+	•	let filter_blind_alleys_allias g b= 
+
+Dont forget the start symbol!
+	•	let filter_blind_alleys g 
+
+
+
+
